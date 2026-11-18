@@ -5,9 +5,9 @@ public class Main {
     public static void main(String[] args){
     List<Assessment> assessments = new ArrayList<>();
     
-    assessments.add(new Assessment("Quiz",20.0, 80.0));
-    assessments.add(new Assessment("Assignment",30.0, 60.0));
-    assessments.add(new Assessment("Exam",50.0, null));
+    assessments.add(new Assessment("Quiz",20.0, 80.0,null));
+    assessments.add(new Assessment("Assignment",30.0, 60.0,null));
+    assessments.add(new Assessment("Exam",50.0, null,null));
 
     double achieved = 0;
     double stillAvailable = 0;
