@@ -19,6 +19,16 @@ class SubjectTest {
         Set<Subject> set = new HashSet<>();
         set.add(a);
         assertTrue(set.contains(b));
-
     }
-}  
+
+    @Test
+    void constructor_rejectsNullCode() {
+        assertThrows(IllegalArgumentException.class, () -> new Subject(null, "Intro"));
+    }
+
+    @Test
+    void constructor_rejectsBlankCode() {
+        assertThrows(IllegalArgumentException.class, () -> new Subject(" ", "Intro"));
+    }
+
+}
