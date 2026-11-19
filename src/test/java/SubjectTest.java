@@ -3,6 +3,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
 
 class SubjectTest {
     @Test
@@ -31,4 +34,11 @@ class SubjectTest {
         assertThrows(IllegalArgumentException.class, () -> new Subject(" ", "Intro"));
     }
 
+    @Test 
+    void sortByCode_ordersAlphabetically() {
+        List<Subject> subjects = new ArrayList<>(List.of(new Subject("COMP2019", "SysPro1"),new Subject("COMP2009", "DSA"),new Subject("COMP3009", "DSP")));
+        subjects.sort(Comparator.comparing(Subject::code));
+        List<Subject> expectedList = new ArrayList<>(List.of(new Subject("COMP2009", "DSA"),new Subject("COMP2019", "SysPro1"),new Subject("COMP3009", "DSP")));
+        assertEquals(expectedList, subjects);
+    }
 }
