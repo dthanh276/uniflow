@@ -62,17 +62,35 @@ public class StudentTest {
         Assessment a2 = new Assessment("Quiz2",
                 40.0,
                 null,
-                LocalDate.of(2026, 12,1));
+                LocalDate.of(2026, 12, 1));
         Assessment a3 = new Assessment("Quiz3",
                 40.0,
                 null,
                 null);
-        stu.addAssessment(s1,a1);
-        stu.addAssessment(s1,a3);
-        stu.addAssessment(s2,a2);
-        
-        assertEquals(List.of(a2,a1,a3),stu.assessmentsByDeadline());
+        stu.addAssessment(s1, a1);
+        stu.addAssessment(s1, a3);
+        stu.addAssessment(s2, a2);
 
+        assertEquals(List.of(a2, a1, a3), stu.assessmentsByDeadline());
+    }
 
+    @Test
+    void assessmentsDueWithin_includesOnlyUpcomingWithinDays() {
+        Student stu = new Student(1, "Harry");
+        Subject sub = new Subject("COMP2001", "DSA");
+        stu.enroll(sub);
+        LocalDate today = LocalDate.of(2026, 11, 20);
+        Assessment dueIn3 = new Assessment("quiz1", 40.0, null, LocalDate.of(2026, 11, 23));
+        Assessment dueIn5 = new Assessment("quiz2", 40.0, null, LocalDate.of(2026, 11, 25));
+        Assessment dueIn10 = new Assessment("quiz3", 40.0, null, LocalDate.of(2026, 11, 30));
+        Assessment overdue = new Assessment("quiz4", 40.0, null, LocalDate.of(2026, 11, 18));
+        Assessment noDate = new Assessment("quiz5", 40.0, null,null);
+        stu.addAssessment(sub,dueIn3);
+        stu.addAssessment(sub,dueIn5);
+        stu.addAssessment(sub,dueIn10);
+        stu.addAssessment(sub,overdue);
+        stu.addAssessment(sub,noDate);
+
+        assertEquals(List.of(dueIn3,dueIn5), stu.assessmentsDueWithin(7,today));
     }
 }
