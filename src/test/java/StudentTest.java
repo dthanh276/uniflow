@@ -2,9 +2,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
-import java.util.ArrayList;
 
 public class StudentTest {
     @Test
@@ -48,4 +46,33 @@ public class StudentTest {
         assertEquals(0, student.assessmentsFor(subject).size());
     }
 
+    @Test
+    void assessmentsByDeadline_nearestFirst_noDateLast() {
+        Student stu = new Student(1, "harry");
+
+        Subject s1 = new Subject("COMP2001", "DSA");
+        Subject s2 = new Subject("COMP2002", "DSP");
+        stu.enroll(s1);
+        stu.enroll(s2);
+
+        Assessment a1 = new Assessment("Quiz1",
+                40.0,
+                null,
+                LocalDate.of(2026, 12, 10));
+        Assessment a2 = new Assessment("Quiz2",
+                40.0,
+                null,
+                LocalDate.of(2026, 12,1));
+        Assessment a3 = new Assessment("Quiz3",
+                40.0,
+                null,
+                null);
+        stu.addAssessment(s1,a1);
+        stu.addAssessment(s1,a3);
+        stu.addAssessment(s2,a2);
+        
+        assertEquals(List.of(a2,a1,a3),stu.assessmentsByDeadline());
+
+
+    }
 }
