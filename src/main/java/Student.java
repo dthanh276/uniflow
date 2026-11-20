@@ -2,6 +2,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 import java.util.List;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
@@ -50,7 +51,22 @@ public class Student {
         for (List<Assessment> list : assessments.values()) {
             allAssessments.addAll(list);
         }
-        allAssessments.sort(Comparator.comparing(Assessment::getDueDate, Comparator.nullsLast(Comparator.naturalOrder())));
+        allAssessments
+                .sort(Comparator.comparing(Assessment::getDueDate, Comparator.nullsLast(Comparator.naturalOrder())));
         return allAssessments;
+    }
+
+    public List<Assessment> assessmentsDueWithin(int days, LocalDate today) {
+        List<Assessment> result = new ArrayList<>();
+        LocalDate due = today.plusDays(days);
+        for (Assessment assessment : assessmentsByDeadline()) {
+            if (assessment.getDueDate()==null) {
+                continue;
+            }
+            if (!assessment.getDueDate().isAfter(due)&&!assessment.getDueDate().isBefore(today)) {
+                result.add(assessment);
+            }
+        }
+        return result;
     }
 }
