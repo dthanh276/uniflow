@@ -60,11 +60,24 @@ public class Student {
         List<Assessment> result = new ArrayList<>();
         LocalDate due = today.plusDays(days);
         for (Assessment assessment : assessmentsByDeadline()) {
-            if (assessment.getDueDate()==null) {
+            if (assessment.getDueDate() == null)
                 continue;
-            }
-            if (!assessment.getDueDate().isAfter(due)&&!assessment.getDueDate().isBefore(today)) {
+            if (!assessment.getDueDate().isAfter(due) && !assessment.getDueDate().isBefore(today)) {
                 result.add(assessment);
+            }
+        }
+        return result;
+    }
+
+    public List<Assessment> assessmentsDueToday(LocalDate today) {
+        List<Assessment> result = new ArrayList<>();
+        for (List<Assessment> assessmentPerSubject : assessments.values()) {
+            for (Assessment assessment : assessmentPerSubject) {
+                if (assessment.getDueDate() == null)
+                    continue;
+                if (assessment.getDueDate().isEqual(today)) {
+                    result.add(assessment);
+                }
             }
         }
         return result;
