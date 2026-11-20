@@ -84,13 +84,55 @@ public class StudentTest {
         Assessment dueIn5 = new Assessment("quiz2", 40.0, null, LocalDate.of(2026, 11, 25));
         Assessment dueIn10 = new Assessment("quiz3", 40.0, null, LocalDate.of(2026, 11, 30));
         Assessment overdue = new Assessment("quiz4", 40.0, null, LocalDate.of(2026, 11, 18));
-        Assessment noDate = new Assessment("quiz5", 40.0, null,null);
-        stu.addAssessment(sub,dueIn3);
-        stu.addAssessment(sub,dueIn5);
-        stu.addAssessment(sub,dueIn10);
-        stu.addAssessment(sub,overdue);
-        stu.addAssessment(sub,noDate);
+        Assessment noDate = new Assessment("quiz5", 40.0, null, null);
+        stu.addAssessment(sub, dueIn10);
+        stu.addAssessment(sub, dueIn5);
+        stu.addAssessment(sub, overdue);
+        stu.addAssessment(sub, noDate);
+        stu.addAssessment(sub, dueIn3);
 
-        assertEquals(List.of(dueIn3,dueIn5), stu.assessmentsDueWithin(7,today));
+        assertEquals(List.of(dueIn3, dueIn5), stu.assessmentsDueWithin(7, today));
     }
+
+    @Test
+    void assessmentsDueWithin_includesAssessmentDueExactlyOnLastDay() {
+        Student stu = new Student(1, "Harry");
+        Subject sub = new Subject("COMP2001", "DSA");
+        stu.enroll(sub);
+        LocalDate today = LocalDate.of(2026, 11, 20);
+        Assessment a = new Assessment("quiz1", 40.0, null, LocalDate.of(2026, 11, 27));
+        stu.addAssessment(sub, a);
+
+        assertEquals(List.of(a), stu.assessmentsDueWithin(7, today));
+    }
+
+    @Test
+    void assessmentsDueWithin_includesAssessmentDueToday() {
+        Student stu = new Student(1, "Harry");
+        Subject sub = new Subject("COMP2001", "DSA");
+        stu.enroll(sub);
+        LocalDate today = LocalDate.of(2026, 11, 20);
+        Assessment a = new Assessment("quiz1", 40.0, null, LocalDate.of(2026, 11, 20));
+        stu.addAssessment(sub, a);
+
+        assertEquals(List.of(a), stu.assessmentsDueWithin(0, today));
+    }
+
+    @Test
+    void assessmentsDueToday_returnsOnlyAssessmentsDueToday() {
+        Student stu = new Student(1, "Harry");
+        Subject sub = new Subject("COMP2001", "DSA");
+        Assessment a1 = new Assessment("quiz1", 40.0, null, LocalDate.of(2026, 11, 23));
+        Assessment a2 = new Assessment("quiz2", 40.0, null, LocalDate.of(2026, 11, 24));
+        Assessment a3 = new Assessment("quiz3", 40.0, null, null);
+        LocalDate today = LocalDate.of(2026, 11, 23);
+        stu.enroll(sub);
+        stu.addAssessment(sub, a1);
+        stu.addAssessment(sub, a2);
+        stu.addAssessment(sub, a3);
+
+        assertEquals(List.of(a1), stu.assessmentsDueToday(today));
+
+    }
+
 }
