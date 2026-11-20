@@ -28,6 +28,7 @@ public class Student {
     }
 
     public void addAssessment(Subject subject, Assessment assessment){
+        if (!subjects.contains(subject)) throw new IllegalArgumentException("Subject is not enrolled");
         List<Assessment> currentAssessments = assessments.get(subject);
         if (currentAssessments == null){
             currentAssessments = new ArrayList<>();
