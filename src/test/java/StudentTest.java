@@ -21,6 +21,8 @@ public class StudentTest {
         Student student = new Student(1, "Harry");
         Subject subject = new Subject("COMP2009", "DSA");
 
+        student.enroll(subject);
+
         Assessment a1 = new Assessment("Quiz 1", 15.0, 80.0, LocalDate.of(2026, 12, 1));
         Assessment a2 = new Assessment("Quiz 2", 15.0, 80.0, LocalDate.of(2026, 12, 1));
 
@@ -28,6 +30,14 @@ public class StudentTest {
         student.addAssessment(subject, a2);
 
         assertEquals(2, student.assessmentsFor(subject).size());
+    }
+
+    @Test
+    void addAssessment_rejectsUnenrolledSubject() {
+        Student student = new Student(1, "Harry");
+        Subject subject = new Subject("COMP2009", "DSA");
+        Assessment a1 = new Assessment("Quiz 1", 15.0, 80.0, LocalDate.of(2026, 12, 1));
+        assertThrows(IllegalArgumentException.class, () -> student.addAssessment(subject, a1));
     }
 
     @Test
