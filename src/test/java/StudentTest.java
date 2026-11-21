@@ -39,6 +39,14 @@ public class StudentTest {
     }
 
     @Test
+    void addAssessment_nullAssessment_throws(){
+        Student student = new Student(1, "Harry");
+        Subject subject = new Subject("COMP2009", "DSA");
+        student.enroll(subject);
+        assertThrows(IllegalArgumentException.class,() -> student.addAssessment(subject,null));
+    }
+
+    @Test
     void assessmentsFor_unknownSubject_returnsEmptyList() {
         Student student = new Student(1, "Harry");
         Subject subject = new Subject("COMP2009", "DSA");
@@ -75,7 +83,7 @@ public class StudentTest {
     }
 
     @Test
-    void assessmentsDueWithin_includesOnlyUpcomingWithinDays() {
+    void assessmentsDueWithin_includesOnlyUpcoming_sortedNearestFirst() {
         Student stu = new Student(1, "Harry");
         Subject sub = new Subject("COMP2001", "DSA");
         stu.enroll(sub);
