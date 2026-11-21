@@ -38,7 +38,7 @@ class AssessmentTest {
     }
 
     @Test
-    void hasDueDate_falseWhenDateGiven() {
+    void hasDueDate_falseWhenNull() {
         Assessment a = new Assessment("Quiz", 20.0, 80.0, null);
         assertFalse(a.hasDueDate());
     }
